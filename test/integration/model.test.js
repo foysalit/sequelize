@@ -867,8 +867,10 @@ describe(Support.getTestDialectTeaser('Model'), () => {
               test = true;
               if (dialect === 'mssql') {
                 expect(sql).to.not.contain('createdAt');
+              } else if (dialect === 'mysql') {
+                expect(sql).to.not.contain('createdAt');
               } else {
-                expect(sql).to.match(/UPDATE\s+[`"]+User1s[`"]+\s+SET\s+[`"]+secretValue[`"]=(\$1|\?),[`"]+updatedAt[`"]+=(\$2|\?)\s+WHERE [`"]+id[`"]+\s=\s(\$3|\?)/);
+                expect(sql).to.match(/UPDATE\s+`.*`\.`User1s`+\s+SET\s+[`"]+secretValue[`"]=(\$1|\?),[`"]+updatedAt[`"]+=(\$2|\?)\s+WHERE [`"]+id[`"]+\s=\s(\$3|\?)/);
               }
             }
           });
@@ -2239,14 +2241,22 @@ describe(Support.getTestDialectTeaser('Model'), () => {
               logging(sql) {
                 expect(sql).to.exist;
                 test++;
-                expect(sql).to.include('INSERT INTO `hello__UserSpecialDblUnderscores`');
+                if (dialect === 'mysql') {
+                  expect(sql).to.include('INSERT INTO `sequelize_test`.`hello__UserSpecialDblUnderscores`');
+                } else {
+                  expect(sql).to.include('INSERT INTO `hello__UserSpecialDblUnderscores`');
+                }
               }
             }).then(() => {
               return User.create({ age: 3 }, {
                 logging(sql) {
                   expect(sql).to.exist;
                   test++;
-                  expect(sql).to.include('INSERT INTO `hello_UserSpecialUnderscores`');
+                  if (dialect === 'mysql') {
+                    expect(sql).to.include('INSERT INTO `sequelize_test`.`hello_UserSpecialUnderscores`');
+                  } else {
+                    expect(sql).to.include('INSERT INTO `hello_UserSpecialUnderscores`');
+                  }
                 }
               });
             });
@@ -2320,6 +2330,8 @@ describe(Support.getTestDialectTeaser('Model'), () => {
               expect(sql).to.match(/REFERENCES\s+\[prefix\]\.\[UserPubs\] \(\[id\]\)/);
             } else if (dialect === 'mariadb') {
               expect(sql).to.match(/REFERENCES\s+`prefix`\.`UserPubs` \(`id`\)/);
+            } else if (dialect === 'mysql') {
+              expect(sql).to.match(/REFERENCES\s+`sequelize_test`\.`prefix.UserPubs` \(`id`\)/);
             } else {
               expect(sql).to.match(/REFERENCES\s+`prefix\.UserPubs` \(`id`\)/);
             }
@@ -2356,6 +2368,9 @@ describe(Support.getTestDialectTeaser('Model'), () => {
             } else if (dialect === 'mariadb') {
               expect(this.UserSpecialSync.getTableName().toString()).to.equal('`special`.`UserSpecials`');
               expect(UserPublic.indexOf('INSERT INTO `UserPublics`')).to.be.above(-1);
+            } else if (dialect === 'mysql') {
+              expect(this.UserSpecialSync.getTableName().toString()).to.equal('`sequelize_test`.`special.UserSpecials`');
+              expect(UserPublic.indexOf('INSERT INTO `sequelize_test`.`UserPublics`')).to.be.above(-1);
             } else {
               expect(this.UserSpecialSync.getTableName().toString()).to.equal('`special.UserSpecials`');
               expect(UserPublic).to.include('INSERT INTO `UserPublics`');
@@ -2369,6 +2384,8 @@ describe(Support.getTestDialectTeaser('Model'), () => {
                 expect(UserSpecial).to.include('INSERT INTO "special"."UserSpecials"');
               } else if (dialect === 'sqlite') {
                 expect(UserSpecial).to.include('INSERT INTO `special.UserSpecials`');
+              } else if (dialect === 'mysql') {
+                expect(UserSpecial).to.include('INSERT INTO `sequelize_test`.`special.UserSpecials`');
               } else if (dialect === 'mssql') {
                 expect(UserSpecial).to.include('INSERT INTO [special].[UserSpecials]');
               } else if (dialect === 'mariadb') {
@@ -2387,6 +2404,8 @@ describe(Support.getTestDialectTeaser('Model'), () => {
                   expect(user).to.include('UPDATE [special].[UserSpecials]');
                 } else if (dialect === 'mariadb') {
                   expect(user).to.include('UPDATE `special`.`UserSpecials`');
+                } else if (dialect === 'mysql') {
+                  expect(user).to.include('UPDATE `sequelize_test`.`special.UserSpecials`');
                 } else {
                   expect(user).to.include('UPDATE `special.UserSpecials`');
                 }

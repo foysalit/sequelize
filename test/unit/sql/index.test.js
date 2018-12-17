@@ -177,7 +177,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
     it('naming', () => {
       expectsql(sql.removeIndexQuery('table', ['column1', 'column2'], {}, 'table'), {
         mariadb: 'DROP INDEX `table_column1_column2` ON `table`',
-        mysql: 'DROP INDEX `table_column1_column2` ON `table`',
+        mysql: 'DROP INDEX `table_column1_column2` ON `sequelize_test`.`table`',
         mssql: 'DROP INDEX [table_column1_column2] ON [table]',
         default: 'DROP INDEX IF EXISTS [table_column1_column2]'
       });

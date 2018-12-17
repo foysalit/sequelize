@@ -46,7 +46,7 @@ if (current.dialect.name !== 'sqlite') {
           expectsql(sql, {
             mssql: 'ALTER TABLE [users] ALTER COLUMN [level_id] FLOAT NOT NULL;',
             mariadb: 'ALTER TABLE `users` CHANGE `level_id` `level_id` FLOAT NOT NULL;',
-            mysql: 'ALTER TABLE `users` CHANGE `level_id` `level_id` FLOAT NOT NULL;',
+            mysql: 'ALTER TABLE `sequelize_test`.`users` CHANGE `level_id` `level_id` FLOAT NOT NULL;',
             postgres: 'ALTER TABLE "users" ALTER COLUMN "level_id" SET NOT NULL;ALTER TABLE "users" ALTER COLUMN "level_id" DROP DEFAULT;ALTER TABLE "users" ALTER COLUMN "level_id" TYPE FLOAT;'
           });
         });
@@ -65,7 +65,7 @@ if (current.dialect.name !== 'sqlite') {
           expectsql(sql, {
             mssql: 'ALTER TABLE [users] ADD FOREIGN KEY ([level_id]) REFERENCES [level] ([id]) ON DELETE CASCADE;',
             mariadb: 'ALTER TABLE `users` ADD FOREIGN KEY (`level_id`) REFERENCES `level` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;',
-            mysql: 'ALTER TABLE `users` ADD FOREIGN KEY (`level_id`) REFERENCES `level` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;',
+            mysql: 'ALTER TABLE `sequelize_test`.`users` ADD FOREIGN KEY (`level_id`) REFERENCES `sequelize_test`.`level` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;',
             postgres: 'ALTER TABLE "users"  ADD FOREIGN KEY ("level_id") REFERENCES "level" ("id") ON DELETE CASCADE ON UPDATE CASCADE;'
           });
         });

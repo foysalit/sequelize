@@ -30,6 +30,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
           query: {
             mssql: 'declare @tmp table ([id] INTEGER,[user_name] NVARCHAR(255)); UPDATE [users] SET [user_name]=$1 OUTPUT INSERTED.[id],INSERTED.[user_name] into @tmp WHERE [id] = $2;select * from @tmp',
             postgres: 'UPDATE "users" SET "user_name"=$1 WHERE "id" = $2 RETURNING *',
+            mysql: 'UPDATE `sequelize_test`.`users` SET `user_name`=$1 WHERE `id` = $2',
             default: 'UPDATE `users` SET `user_name`=$1 WHERE `id` = $2'
           },
           bind: {
@@ -55,7 +56,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
         query: {
           mssql: 'UPDATE TOP(1) [Users] SET [username]=$1 OUTPUT INSERTED.* WHERE [username] = $2',
           mariadb: 'UPDATE `Users` SET `username`=$1 WHERE `username` = $2 LIMIT 1',
-          mysql: 'UPDATE `Users` SET `username`=$1 WHERE `username` = $2 LIMIT 1',
+          mysql: 'UPDATE `sequelize_test`.`Users` SET `username`=$1 WHERE `username` = $2 LIMIT 1',
           sqlite: 'UPDATE `Users` SET `username`=$1 WHERE rowid IN (SELECT rowid FROM `Users` WHERE `username` = $2 LIMIT 1)',
           default: 'UPDATE [Users] SET [username]=$1 WHERE [username] = $2'
         },

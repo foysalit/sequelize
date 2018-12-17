@@ -30,6 +30,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
           query: {
             mssql: 'declare @tmp table ([id] INTEGER,[user_name] NVARCHAR(255));INSERT INTO [users] ([user_name]) OUTPUT INSERTED.[id],INSERTED.[user_name] into @tmp VALUES ($1);select * from @tmp;',
             postgres: 'INSERT INTO "users" ("user_name") VALUES ($1) RETURNING *;',
+            mysql: 'INSERT INTO `sequelize_test`.`users` (`user_name`) VALUES ($1);',
             default: 'INSERT INTO `users` (`user_name`) VALUES ($1);'
           },
           bind: ['triggertest']
@@ -57,6 +58,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
           query: {
             postgres: 'INSERT INTO "users" ("date") VALUES ($1);',
             mssql: 'INSERT INTO [users] ([date]) VALUES ($1);',
+            mysql: 'INSERT INTO `sequelize_test`.`users` (`date`) VALUES ($1);',
             default: 'INSERT INTO `users` (`date`) VALUES ($1);'
           },
           bind: {
@@ -86,6 +88,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
           query: {
             postgres: 'INSERT INTO "users" ("date") VALUES ($1);',
             mssql: 'INSERT INTO [users] ([date]) VALUES ($1);',
+            mysql: 'INSERT INTO `sequelize_test`.`users` (`date`) VALUES ($1);',
             default: 'INSERT INTO `users` (`date`) VALUES ($1);'
           },
           bind: {
@@ -127,7 +130,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
           postgres: 'INSERT INTO "users" ("user_name","pass_word") VALUES (\'testuser\',\'12345\');',
           mssql: 'INSERT INTO [users] ([user_name],[pass_word]) VALUES (N\'testuser\',N\'12345\');',
           mariadb: 'INSERT INTO `users` (`user_name`,`pass_word`) VALUES (\'testuser\',\'12345\') ON DUPLICATE KEY UPDATE `user_name`=VALUES(`user_name`),`pass_word`=VALUES(`pass_word`),`updated_at`=VALUES(`updated_at`);',
-          mysql: 'INSERT INTO `users` (`user_name`,`pass_word`) VALUES (\'testuser\',\'12345\') ON DUPLICATE KEY UPDATE `user_name`=VALUES(`user_name`),`pass_word`=VALUES(`pass_word`),`updated_at`=VALUES(`updated_at`);'
+          mysql: 'INSERT INTO `sequelize_test`.`users` (`user_name`,`pass_word`) VALUES (\'testuser\',\'12345\') ON DUPLICATE KEY UPDATE `user_name`=VALUES(`user_name`),`pass_word`=VALUES(`pass_word`),`updated_at`=VALUES(`updated_at`);'
         });
     });
   });

@@ -25,7 +25,7 @@ if (['mysql', 'mariadb'].includes(current.dialect.name)) {
           allowNull: false
         })), {
           mariadb: 'ALTER TABLE `users` ADD `level_id` FLOAT NOT NULL;',
-          mysql: 'ALTER TABLE `users` ADD `level_id` FLOAT NOT NULL;'
+          mysql: 'ALTER TABLE `sequelize_test`.`users` ADD `level_id` FLOAT NOT NULL;'
         });
       });
 
@@ -40,7 +40,7 @@ if (['mysql', 'mariadb'].includes(current.dialect.name)) {
           onDelete: 'cascade'
         })), {
           mariadb: 'ALTER TABLE `users` ADD `level_id` INTEGER, ADD CONSTRAINT `users_level_id_foreign_idx` FOREIGN KEY (`level_id`) REFERENCES `level` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;',
-          mysql: 'ALTER TABLE `users` ADD `level_id` INTEGER, ADD CONSTRAINT `users_level_id_foreign_idx` FOREIGN KEY (`level_id`) REFERENCES `level` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;'
+          mysql: 'ALTER TABLE `sequelize_test`.`users` ADD `level_id` INTEGER, ADD CONSTRAINT `users_level_id_foreign_idx` FOREIGN KEY (`level_id`) REFERENCES `sequelize_test`.`level` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;'
         });
       });
 
@@ -50,7 +50,7 @@ if (['mysql', 'mariadb'].includes(current.dialect.name)) {
           first: true
         })), {
           mariadb: 'ALTER TABLE `users` ADD `test_added_col_first` VARCHAR(255) FIRST;',
-          mysql: 'ALTER TABLE `users` ADD `test_added_col_first` VARCHAR(255) FIRST;'
+          mysql: 'ALTER TABLE `sequelize_test`.`users` ADD `test_added_col_first` VARCHAR(255) FIRST;'
         });
       });
 
@@ -60,7 +60,7 @@ if (['mysql', 'mariadb'].includes(current.dialect.name)) {
           comment: 'This is a comment'
         })), {
           mariadb: 'ALTER TABLE `users` ADD `column_with_comment` VARCHAR(255) COMMENT \'This is a comment\';',
-          mysql: 'ALTER TABLE `users` ADD `column_with_comment` VARCHAR(255) COMMENT \'This is a comment\';'
+          mysql: 'ALTER TABLE `sequelize_test`.`users` ADD `column_with_comment` VARCHAR(255) COMMENT \'This is a comment\';'
         });
       });
     });

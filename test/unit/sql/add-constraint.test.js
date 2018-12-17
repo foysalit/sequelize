@@ -153,7 +153,8 @@ if (current.dialect.supports.constraints.addConstraint) {
               field: 'id'
             }
           }), {
-            default: 'ALTER TABLE [myTable] ADD CONSTRAINT [foreignkey_mytable_mycolumn] FOREIGN KEY ([myColumn]) REFERENCES [myOtherTable] ([id]);'
+            default: 'ALTER TABLE [myTable] ADD CONSTRAINT [foreignkey_mytable_mycolumn] FOREIGN KEY ([myColumn]) REFERENCES [myOtherTable] ([id]);',
+            mysql: 'ALTER TABLE `myTable` ADD CONSTRAINT `foreignkey_mytable_mycolumn` FOREIGN KEY (`myColumn`) REFERENCES `sequelize_test`.`myOtherTable` (`id`);'
           });
         });
 
@@ -168,7 +169,8 @@ if (current.dialect.supports.constraints.addConstraint) {
             onUpdate: 'cascade',
             onDelete: 'cascade'
           }), {
-            default: 'ALTER TABLE [myTable] ADD CONSTRAINT [myTable_myColumn_myOtherTable_fk] FOREIGN KEY ([myColumn]) REFERENCES [myOtherTable] ([id]) ON UPDATE CASCADE ON DELETE CASCADE;'
+            default: 'ALTER TABLE [myTable] ADD CONSTRAINT [myTable_myColumn_myOtherTable_fk] FOREIGN KEY ([myColumn]) REFERENCES [myOtherTable] ([id]) ON UPDATE CASCADE ON DELETE CASCADE;',
+            mysql: 'ALTER TABLE `myTable` ADD CONSTRAINT `myTable_myColumn_myOtherTable_fk` FOREIGN KEY (`myColumn`) REFERENCES `sequelize_test`.`myOtherTable` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;'
           });
         });
 

@@ -116,6 +116,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
             field: 'id'
           }
         }), {
+          mysql: 'CONSTRAINT `foreignkey_mytable_mycolumn` FOREIGN KEY (`myColumn`) REFERENCES `sequelize_test`.`myOtherTable` (`id`)',
           default: 'CONSTRAINT [foreignkey_mytable_mycolumn] FOREIGN KEY ([myColumn]) REFERENCES [myOtherTable] ([id])'
         });
       });
@@ -131,6 +132,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
           onUpdate: 'cascade',
           onDelete: 'cascade'
         }), {
+          mysql: 'CONSTRAINT `myTable_myColumn_myOtherTable_fk` FOREIGN KEY (`myColumn`) REFERENCES `sequelize_test`.`myOtherTable` (`id`) ON UPDATE CASCADE ON DELETE CASCADE',
           default: 'CONSTRAINT [myTable_myColumn_myOtherTable_fk] FOREIGN KEY ([myColumn]) REFERENCES [myOtherTable] ([id]) ON UPDATE CASCADE ON DELETE CASCADE'
         });
       });

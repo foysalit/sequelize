@@ -51,7 +51,8 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
       default: new Error('WHERE parameter "user" has invalid "undefined" value')
     });
     testsql({ id: 1 }, { prefix: 'User' }, {
-      default: 'WHERE [User].[id] = 1'
+      default: 'WHERE [User].[id] = 1',
+      mysql: 'WHERE `sequelize_test`.`User`.`id` = 1'
     });
 
     it("{ id: 1 }, { prefix: current.literal(sql.quoteTable.call(current.dialect.QueryGenerator, {schema: 'yolo', tableName: 'User'})) }", () => {
@@ -59,6 +60,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
         default: 'WHERE [yolo.User].[id] = 1',
         postgres: 'WHERE "yolo"."User"."id" = 1',
         mariadb: 'WHERE `yolo`.`User`.`id` = 1',
+        mysql: 'WHERE `sequelize_test`.`yolo.User`.`id` = 1',
         mssql: 'WHERE [yolo].[User].[id] = 1'
       });
     });
@@ -827,7 +829,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
           prefix: 'User'
         }, {
           mariadb: "json_unquote(json_extract(`User`.`data`,'$.nested.attribute')) = 'value'",
-          mysql: "(`User`.`data`->>'$.\"nested\".\"attribute\"') = 'value'",
+          mysql: "(`sequelize_test`.`User`.`data`->>'$.\"nested\".\"attribute\"') = 'value'",
           postgres: "(\"User\".\"data\"#>>'{nested,attribute}') = 'value'",
           sqlite: "json_extract(`User`.`data`, '$.nested.attribute') = 'value'"
         });
@@ -876,7 +878,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
           prefix: current.literal(sql.quoteTable.call(current.dialect.QueryGenerator, { tableName: 'User' }))
         }, {
           mariadb: "(json_unquote(json_extract(`User`.`data`,'$.nested.attribute')) = 'value' AND json_unquote(json_extract(`User`.`data`,'$.nested.prop')) != 'None')",
-          mysql: "((`User`.`data`->>'$.\"nested\".\"attribute\"') = 'value' AND (`User`.`data`->>'$.\"nested\".\"prop\"') != 'None')",
+          mysql: "((`sequelize_test`.`User`.`data`->>'$.\"nested\".\"attribute\"') = 'value' AND (`sequelize_test`.`User`.`data`->>'$.\"nested\".\"prop\"') != 'None')",
           postgres: "((\"User\".\"data\"#>>'{nested,attribute}') = 'value' AND (\"User\".\"data\"#>>'{nested,prop}') != 'None')",
           sqlite: "(json_extract(`User`.`data`, '$.nested.attribute') = 'value' AND json_extract(`User`.`data`, '$.nested.prop') != 'None')"
         });
@@ -895,7 +897,7 @@ describe(Support.getTestDialectTeaser('SQL'), () => {
           prefix: 'User'
         }, {
           mariadb: "(json_unquote(json_extract(`User`.`data`,'$.name.last')) = 'Simpson' AND json_unquote(json_extract(`User`.`data`,'$.employment')) != 'None')",
-          mysql: "((`User`.`data`->>'$.\"name\".\"last\"') = 'Simpson' AND (`User`.`data`->>'$.\"employment\"') != 'None')",
+          mysql: "((`sequelize_test`.`User`.`data`->>'$.\"name\".\"last\"') = 'Simpson' AND (`sequelize_test`.`User`.`data`->>'$.\"employment\"') != 'None')",
           postgres: "((\"User\".\"data\"#>>'{name,last}') = 'Simpson' AND (\"User\".\"data\"#>>'{employment}') != 'None')",
           sqlite: "(json_extract(`User`.`data`, '$.name.last') = 'Simpson' AND json_extract(`User`.`data`, '$.employment') != 'None')"
         });
